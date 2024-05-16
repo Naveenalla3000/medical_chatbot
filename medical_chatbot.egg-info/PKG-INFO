@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: medical_chatbot
+Version: 0.0.1
+Author: Naveen alla
+Author-email: naveenalla3000@gmail.com
+Requires-Dist: langchain
+Requires-Dist: pinecone
+Requires-Dist: langchain-google-genai
+Requires-Dist: pillow
+Requires-Dist: langchain-pinecone
+Requires-Dist: python-dotenv
+Requires-Dist: pypdf
+Requires-Dist: sentence-transformers
+Requires-Dist: chainlit

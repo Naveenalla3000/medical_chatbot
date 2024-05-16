@@ -1,0 +1,9 @@
+langchain
+pinecone
+langchain-google-genai
+pillow
+langchain-pinecone
+python-dotenv
+pypdf
+sentence-transformers
+chainlit
