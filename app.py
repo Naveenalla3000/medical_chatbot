@@ -5,6 +5,7 @@ from pinecone import Pinecone as PineconeClient
 from langchain_pinecone import PineconeVectorStore
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
+from langchain.memory import ConversationBufferMemory
 
 # Import the dotenv module
 from dotenv import load_dotenv
@@ -36,11 +37,29 @@ pc = PineconeClient(api_key=PINECONE_API_KEY)
 index_name = PINECONE_API_INDEX
 
 # Load the Pinecone index
-docsearch = PineconeVectorStore.from_existing_index(index_name=index_name, embedding=embeddings)
+docsearch = PineconeVectorStore.from_existing_index(
+    index_name=index_name,
+    embedding=embeddings
+)
 
 # Initialize the PromptTemplate
-PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-chain_type_kwargs={"prompt": PROMPT}
+PROMPT=PromptTemplate(
+    template=prompt_template,
+    input_variables=["context", "question","history"]
+)
+
+# Configure the ConversationBufferMemory
+conversationBufferMemory = ConversationBufferMemory(
+    memory_key="history",
+    return_messages=True,
+    input_key="question"
+)
+
+# Configure the chain type kwargs
+chain_type_kwargs={
+    "prompt": PROMPT,
+    "memory": conversationBufferMemory
+}
 
 # set up the llm 
 llm = get_llm()
@@ -51,7 +70,7 @@ rqa = RetrievalQA.from_chain_type(
     chain_type="stuff",
     retriever=docsearch.as_retriever(search_kwargs={'k': 2}),
     return_source_documents=True,
-    chain_type_kwargs=chain_type_kwargs
+    chain_type_kwargs=chain_type_kwargs,
 )
 
 

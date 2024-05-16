@@ -5,6 +5,7 @@ If the question is a greeting such as hi, hello, good morning, good evening, or 
 If the question is not related to the medical domain, inform the user that they can ask about medical-related topics.
 
 Context: {context}
+history: {history}
 Question: {question}
 
 Only provide the useful answer below and nothing else.
